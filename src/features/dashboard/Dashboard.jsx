@@ -15,7 +15,7 @@ const Dashboard = () => {
 
     try {
       await signOut();
-      navigate("/");
+      navigate("/efleks-reports/");
     } catch (err) {
       setError(`An unexpected error occurred: ${err}`); // Catch unexpected errors
     }
