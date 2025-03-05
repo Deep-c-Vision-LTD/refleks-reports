@@ -18,7 +18,6 @@ const ProfileList = () => {
     }
     setProfiles(data);
   }
-  var session = supabase.auth.getSession()?.user?.user_metadata;
 
   return (
     <div>
@@ -29,7 +28,6 @@ const ProfileList = () => {
         ))}
       </ul>
       {error && <p className="text-red-600 text-center pt-4">{error}</p>}
-      {session}
     </div>
   );
 };
