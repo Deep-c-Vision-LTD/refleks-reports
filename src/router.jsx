@@ -5,6 +5,6 @@ import Dashboard from "./features/dashboard/Dashboard";
 import Signin from "./features/auth/Signin";
 
 export const router = createBrowserRouter([
-  { path: "/", element: <App /> },
-  { path: "/dashboard", element: <Dashboard /> },
+  { path: "/refleks-reports/", element: <App /> },
+  { path: "/efleks-reports/dashboard", element: <Dashboard /> },
 ]);
