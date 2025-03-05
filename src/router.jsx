@@ -4,7 +4,12 @@ import App from "./App";
 import Dashboard from "./features/dashboard/Dashboard";
 import Signin from "./features/auth/Signin";
 
-export const router = createBrowserRouter([
-  { path: "/refleks-reports/", element: <App /> },
-  { path: "/efleks-reports/dashboard", element: <Dashboard /> },
-]);
+export const router = createBrowserRouter(
+  [
+    { path: "/", element: <App /> },
+    { path: "/dashboard", element: <Dashboard /> },
+  ],
+  {
+    basename: "/refleks-reports",
+  }
+);
