@@ -2,39 +2,25 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { UserAuth } from "../auth/context/AuthContext";
-import ProfileList from "./components/ProfileList";
+import Header from "./components/Header";
 
 const Dashboard = () => {
-  const { session, signOut } = UserAuth();
+  const { session } = UserAuth();
   const navigate = useNavigate();
 
-  const [error, setError] = useState("");
+  //const [error, setError] = useState("");
 
-  const handleSignOut = async (e) => {
-    e.preventDefault();
+  // Redirect to the sign-in page if there's no session
+  if (!session) {
+    navigate("/");
+  }
 
-    try {
-      await signOut();
-      navigate("/");
-    } catch (err) {
-      setError(`An unexpected error occurred: ${err}`); // Catch unexpected errors
-    }
-  };
-  console.log(session);
   return (
     <div>
-      <h1>Dashboard</h1>
-      <h2>Welcome, {session?.user?.email}</h2>
-      <ProfileList />
-      <div>
-        <p
-          onClick={handleSignOut}
-          className="hover:cursor-pointer  border inline-block px-4 py-3 mt-4 "
-        >
-          Sign out
-        </p>
-        {error && <p className="text-red-600 text-center pt-4">{error}</p>}
-      </div>
+      <Header />
+      <h2 className="text-2xl text-gray-800 mt-5">
+        Welcome, {session?.user?.email}
+      </h2>
     </div>
   );
 };
