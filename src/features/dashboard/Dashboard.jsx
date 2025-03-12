@@ -20,21 +20,34 @@ const Dashboard = () => {
 
   const handleExport = async (e) => {
     e.preventDefault();
+    if (!resultsType) {
+      setError("Please select a results type.");
+      return;
+    }
+
     console.log("Exporting data...");
     // log form data
     console.log(resultsType, fromDate, toDate);
-    const { data, err } = await supabase
-      .from(resultsType)
-      .select()
-      .gte("updated_at", fromDate)
-      .lte("updated_at", toDate + "T23:59:59.999Z") // add time to toDate to include whole day
-      .limit(10)
-      .order("updated_at");
+    let query = supabase.from(resultsType).select().order("updated_at");
+
+    if (fromDate) {
+      query = query.gte("updated_at", fromDate);
+    }
+    if (toDate) {
+      query = query.lte("updated_at", toDate + "T23:59:59.999Z"); // add time to toDate to include whole day
+    }
+
+    const { data, err } = await query;
     if (err) {
       console.error("Error fetching results:", err);
       setError(err);
       return;
     }
+    if (!data || data.length === 0) {
+      setError("No results found for the specified date range.");
+      return;
+    }
+
     console.log(data);
     // export as CSV file
     const csv = data.map((entry) => {
@@ -60,6 +73,7 @@ const Dashboard = () => {
       <div className="flex items-center justify-center min-h-screen bg-base-200">
         <div className="w-full max-w-sm p-8 bg-base-300 rounded-lg shadow-md">
           <form onSubmit={handleExport}>
+            <label className="label">Results Type</label>
             <div className="form-control flex flex-row justify-center space-x-16 mb-4">
               <label className="label cursor-pointer">
                 <span className="label-text">GPPAQ</span>
